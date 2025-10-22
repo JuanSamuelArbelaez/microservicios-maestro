@@ -46,7 +46,7 @@ services:
       retries: 6
 
   user-service:
-    build: ./servicio-usuario
+    build: ./servicio-usuarios
     container_name: user-service
     restart: unless-stopped
     environment:
@@ -131,7 +131,7 @@ services:
       - kafka
 
   notification-orchestrator:
-    build: ./orquestador-notificacion
+    build: ./orquestador-notificaciones
     container_name: notification-orchestrator
     restart: unless-stopped
     depends_on:
