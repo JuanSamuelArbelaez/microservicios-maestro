@@ -2,4 +2,5 @@ https://github.com/JuanSamuelArbelaez/orquestador-notificaciones
 https://github.com/JuanSamuelArbelaez/servicio-otp
 https://github.com/JuanSamuelArbelaez/servicio-datos
 https://github.com/JuanSamuelArbelaez/servicio-usuarios
+https://github.com/GT09Neil/microservicios-api-tests
 https://github.com/JuanSamuelArbelaez/microservicios-maestro
