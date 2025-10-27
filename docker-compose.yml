@@ -131,7 +131,7 @@ services:
       - kafka
 
   notification-orchestrator:
-    build: ./orquestador-notificacion
+    build: ./orquestador-notificaciones
     container_name: notification-orchestrator
     restart: unless-stopped
     depends_on:

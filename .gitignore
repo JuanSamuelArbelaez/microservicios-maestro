@@ -27,5 +27,9 @@ Thumbs.db
 ./servicio-datos/**
 ./servicio-notificaciones/**
 ./servicio-usuario/**
+./servicio-usuarios/**
 ./servicio-otp/**
 ./orquestador-notificacion/**
+./orquestador-notificaciones/**
+./api-tests/*
+./microservicios-api-tests/**
