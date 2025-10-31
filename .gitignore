@@ -31,5 +31,5 @@ Thumbs.db
 ./servicio-otp/**
 ./orquestador-notificacion/**
 ./orquestador-notificaciones/**
-./api-tests/*
+./api-tests/**
 ./microservicios-api-tests/**
