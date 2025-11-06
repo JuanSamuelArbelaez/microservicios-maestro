@@ -1,0 +1,11 @@
+groups:
+  - name: microservices_health
+    rules:
+      - alert: MicroserviceDown
+        expr: probe_success == 0
+        for: 30s
+        labels:
+          severity: critical
+        annotations:
+          summary: "Microservicio caído: {{ $labels.instance }}"
+          description: "El microservicio {{ $labels.instance }} no responde al health check."

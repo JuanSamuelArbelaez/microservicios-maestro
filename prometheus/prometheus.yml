@@ -1,0 +1,33 @@
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+
+alerting:
+  alertmanagers:
+    - static_configs:
+        - targets: ['alertmanager:9093']
+
+rule_files:
+  - "alert.rules.yml"
+
+scrape_configs:
+  # Verificación HTTP de todos los microservicios mediante Blackbox
+  - job_name: 'microservices-health'
+    metrics_path: /probe
+    params:
+      module: [http_2xx]
+    static_configs:
+      - targets:
+          - http://user-service:8080/health/ready
+          - http://data-service:8082/health/ready
+          - http://notification-service:8083/health/ready
+          - http://otp-service:8084/health/ready
+          - http://notification-orchestrator:8080/health/ready
+    relabel_configs:
+      # Mapear target para blackbox
+      - source_labels: [__address__]
+        target_label: __param_target
+      - target_label: instance
+        source_labels: [__param_target]
+      - target_label: __address__
+        replacement: blackbox:9115

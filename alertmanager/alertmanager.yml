@@ -1,0 +1,20 @@
+global:
+  resolve_timeout: 5m
+
+route:
+  receiver: 'team-email'
+  group_by: ['alertname']
+  group_wait: 10s
+  group_interval: 1m
+  repeat_interval: 5m
+
+receivers:
+  - name: 'team-email'
+    email_configs:
+      - to: 'juans.arbelaezr@uqvirtual.edu.co, admin2@example.com'
+        from: 'alertas@microservicios.com'
+        smarthost: 'smtp.gmail.com:587'
+        auth_username: 'alertas@microservicios.com'
+        auth_identity: 'alertas@microservicios.com'
+        auth_password: 'TU_APP_PASSWORD'
+        require_tls: true
