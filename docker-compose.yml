@@ -160,6 +160,32 @@ services:
       timeout: 5s
       retries: 6
 
+  servicio-perfil:
+    build: ./servicio-perfil
+    container_name: profile-service
+    restart: unless-stopped
+    environment:
+      - DB_HOST=database
+      - DB_PORT=5432
+      - DB_USER=admin_user
+      - DB_PASSWORD=supersecurepassword
+      - DB_NAME=usuariosdb
+      - PUBLIC_KEY_PATH=/app/keys/public-key.pem
+      - PORT=8087
+    volumes:
+      - ./keys:/app/keys:ro
+    ports:
+      - "8087:8087"
+    networks:
+      - app-network
+    depends_on:
+      - database
+    healthcheck:
+      test: ["CMD", "curl -f http://localhost:8087/health || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 6
+
   kafka-ui:
     image: provectuslabs/kafka-ui:latest
     container_name: kafka-ui
@@ -276,6 +302,8 @@ services:
     restart: unless-stopped
     ports:
       - "9115:9115"
+    volumes:
+    - ./blackbox/blackbox.yml:/etc/blackbox_exporter/config.yml  # ← Montar configuración
     networks:
       - app-network
 

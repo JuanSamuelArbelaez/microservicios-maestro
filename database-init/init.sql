@@ -30,3 +30,19 @@ CREATE TABLE otp (
     otp_status otp_status_enum NOT NULL DEFAULT 'CREATED',
     CONSTRAINT fk_user FOREIGN KEY (user_id) REFERENCES users(id)
 );
+
+CREATE TABLE profiles (
+    id SERIAL PRIMARY KEY,
+    user_id INT NOT NULL UNIQUE,
+    personal_url VARCHAR(500),
+    nickname VARCHAR(100),
+    is_contact_public BOOLEAN NOT NULL DEFAULT false,
+    mailing_address TEXT,
+    biography TEXT,
+    organization VARCHAR(200),
+    country VARCHAR(100),
+    social_links JSONB DEFAULT '{}'::jsonb,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT fk_profile_user FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+);
