@@ -34,3 +34,5 @@ Thumbs.db
 ./api-tests/**
 ./microservicios-api-tests/**
 ./servicio-perfil/**
+./servicio-gateway/**
+/.env

@@ -3,5 +3,8 @@ https://github.com/JuanSamuelArbelaez/servicio-notificaciones
 https://github.com/JuanSamuelArbelaez/servicio-otp
 https://github.com/JuanSamuelArbelaez/servicio-datos
 https://github.com/JuanSamuelArbelaez/servicio-usuarios
+https://github.com/JuanSamuelArbelaez/servicio-gateway
 https://github.com/GT09Neil/microservicios-api-tests
+https://github.com/Amusas/servicio-perfil
 https://github.com/JuanSamuelArbelaez/microservicios-maestro
+

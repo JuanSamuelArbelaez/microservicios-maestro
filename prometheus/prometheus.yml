@@ -24,6 +24,7 @@ scrape_configs:
           - http://otp-service:8084/health/ready
           - http://profile-service:8087/health/ready
           - http://notification-orchestrator:8080/health/ready
+          - http://servicio-gateway:8088/health/ready
     relabel_configs:
       - source_labels: [__address__]
         target_label: __param_target
