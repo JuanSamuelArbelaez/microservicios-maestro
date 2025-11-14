@@ -317,6 +317,28 @@ services:
       - ./alertmanager:/etc/alertmanager
     networks:
       - app-network
+    environment:
+      - SENDGRID_API_KEY=${SENDGRID_API_KEY}
+      - SENDGRID_FROM=${SENDGRID_FROM}
+
+  servicio-gateway:
+    build: ./servicio-gateway
+    container_name: servicio-gateway
+    restart: unless-stopped
+    environment:
+      SECURITY_URL: "http://user-service:8080/api/v1"
+      PROFILE_URL: "http://profile-service:8087/api"
+      EVENT_BUS_URL: "http://notification-orchestrator:8080"
+      PORT: "8088"
+    ports:
+      - "8088:8088"
+    networks:
+      - app-network
+    depends_on:
+      - user-service
+      - data-service
+      - notification-orchestrator
+      - servicio-perfil
 
   # ============================================
   # SERVICIOS DE PRUEBAS AUTOMATIZADAS

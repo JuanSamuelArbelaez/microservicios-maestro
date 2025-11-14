@@ -33,3 +33,7 @@ Thumbs.db
 ./orquestador-notificaciones/**
 ./api-tests/**
 ./microservicios-api-tests/**
+./servicio-gateway/**
+./servicio-perfil(**
+
+/.env
