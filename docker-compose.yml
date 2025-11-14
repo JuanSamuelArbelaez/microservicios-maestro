@@ -394,6 +394,42 @@ services:
     profiles:
       - testing
 
+  # ================================
+  # PRUEBAS - SERVICIO NOTIFICACIONES
+  # ================================
+  notification-tests:
+    build:
+      context: ./servicio-notificaciones
+      dockerfile: Dockerfile.test
+    container_name: notification-tests
+    environment:
+      NODE_ENV: test
+    command: npm test
+    volumes:
+      - ./servicio-notificaciones:/app
+      - /app/node_modules
+    networks:
+      - app-network
+    profiles:
+      - testing
+
+  notification-coverage:
+    build:
+      context: ./servicio-notificaciones
+      dockerfile: Dockerfile.test
+    container_name: notification-coverage
+    environment:
+      NODE_ENV: test
+    command: npm run test:coverage
+    volumes:
+      - ./servicio-notificaciones:/app
+      - /app/node_modules
+      - ./servicio-notificaciones/coverage:/app/coverage
+    networks:
+      - app-network
+    profiles:
+      - testing
+
 networks:
   app-network:
     driver: bridge
