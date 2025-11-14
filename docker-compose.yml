@@ -476,6 +476,71 @@ services:
     profiles:
       - testing
 
+  # ================================
+  # PRUEBAS - SERVICIO GATEWAY
+  # ================================
+  gateway-tests:
+    build:
+      context: ./servicio-gateway
+      dockerfile: Dockerfile.test
+    container_name: gateway-tests
+    environment:
+      - SECURITY_URL=http://user-service:8080
+      - PROFILE_URL=http://profile-service:8087
+      - EVENT_BUS_URL=http://notification-orchestrator:8085
+      - PORT=8088
+      - JWT_SECRET=test-secret-key
+    command: |
+      sh -c '
+        echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+        echo "🧪 Ejecutando Pruebas Unitarias - Servicio Gateway"
+        echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+        go test ./... -v
+        TEST_EXIT_CODE=$$?
+        echo ""
+        if [ $$TEST_EXIT_CODE -eq 0 ]; then
+          echo "✅ Todas las pruebas unitarias pasaron exitosamente"
+        else
+          echo "❌ Las pruebas unitarias fallaron"
+          exit 1
+        fi
+      '
+    volumes:
+      - ./servicio-gateway:/app
+      - gateway-go-modules:/go/pkg/mod
+    networks:
+      - app-network
+    profiles:
+      - testing
+
+  gateway-coverage:
+    build:
+      context: ./servicio-gateway
+      dockerfile: Dockerfile.test
+    container_name: gateway-coverage
+    environment:
+      - SECURITY_URL=http://user-service:8080
+      - PROFILE_URL=http://profile-service:8087
+      - EVENT_BUS_URL=http://notification-orchestrator:8085
+      - PORT=8088
+      - JWT_SECRET=test-secret-key
+    command: |
+      sh -c '
+        echo "📊 Generando reporte de cobertura - Servicio Gateway..."
+        go test ./... -coverprofile=coverage.out -covermode=atomic
+        go tool cover -html=coverage.out -o /coverage/coverage.html
+        go tool cover -func=coverage.out
+        echo "✅ Reporte generado en servicio-gateway/coverage/coverage.html"
+      '
+    volumes:
+      - ./servicio-gateway:/app
+      - ./servicio-gateway/coverage:/coverage
+      - gateway-go-modules:/go/pkg/mod
+    networks:
+      - app-network
+    profiles:
+      - testing
+
 
 networks:
   app-network:
@@ -490,3 +555,4 @@ volumes:
   sonarqube_logs:
   loki_data:
   grafana_data:
+  gateway-go-modules:
