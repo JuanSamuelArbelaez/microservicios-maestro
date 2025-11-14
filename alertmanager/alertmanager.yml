@@ -1,20 +1,43 @@
 global:
-  resolve_timeout: 5m
+  smtp_smarthost: 'smtp.gmail.com:465'
+  smtp_from: 'mapsphereapp@gmail.com'  # ← Tu email de Gmail
+  smtp_auth_username: 'mapsphereapp@gmail.com'  # ← Tu email de Gmail
+  smtp_auth_password: 'fyswvztlvpqohlze'  # ← Contraseña de aplicación
+  smtp_require_tls: false
 
 route:
-  receiver: 'team-email'
   group_by: ['alertname']
   group_wait: 10s
-  group_interval: 1m
-  repeat_interval: 5m
+  group_interval: 10s
+  repeat_interval: 1h
+  receiver: 'team-email'
 
 receivers:
   - name: 'team-email'
     email_configs:
-      - to: 'juans.arbelaezr@uqvirtual.edu.co, admin2@example.com'
-        from: 'alertas@microservicios.com'
-        smarthost: 'smtp.gmail.com:587'
-        auth_username: 'alertas@microservicios.com'
-        auth_identity: 'alertas@microservicios.com'
-        auth_password: 'TU_APP_PASSWORD'
-        require_tls: true
+      - to: 'juans.arbelaezr@uqvirtual.edu.co'
+        headers:
+          subject: '🚨 Alerta: {{ .GroupLabels.alertname }} - Microservicios'
+        # CORRECCIÓN: Usar 'text' en lugar de 'body'
+        text: |-
+          ALERTA DE MICROSERVICIOS
+          ========================
+
+          📋 Alerta: {{ .GroupLabels.alertname }}
+          🌐 Instancia: {{ .Labels.instance }}
+          ⚠️ Severidad: {{ .Labels.severity }}
+
+          📝 Resumen: {{ .Annotations.summary }}
+          📄 Descripción: {{ .Annotations.description }}
+
+          🕐 Inicio: {{ .StartsAt }}
+          🔚 Fin: {{ .EndsAt }}
+
+          Servicios afectados:
+          {{ range .Alerts }}
+          - {{ .Labels.instance }}: {{ .Annotations.summary }}
+          {{ end }}
+
+          Verificar en Prometheus: http://localhost:9090
+
+
